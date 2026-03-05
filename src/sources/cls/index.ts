@@ -16,13 +16,15 @@ const depth = async (): Promise<NewsItem[]> => {
   const res: any = await myFetch(apiUrl, {
     query: Object.fromEntries(await getSearchParams()),
   })
-  return res.data.depth_list.sort((m: Item, n: Item) => n.ctime - m.ctime).map((k: Item) => ({
-    id: k.id,
-    title: k.title || k.brief,
-    mobileUrl: k.shareurl,
-    pubDate: k.ctime * 1000,
-    url: `https://www.cls.cn/detail/${k.id}`,
-  }))
+  return res.data.depth_list
+    .sort((m: Item, n: Item) => n.ctime - m.ctime)
+    .map((k: Item) => ({
+      id: k.id,
+      title: k.title || k.brief,
+      mobileUrl: k.shareurl,
+      pubDate: k.ctime * 1000,
+      url: `https://www.cls.cn/detail/${k.id}`,
+    }))
 }
 
 const hot = async (): Promise<NewsItem[]> => {
@@ -43,17 +45,19 @@ const telegraph = async (): Promise<NewsItem[]> => {
   const res: any = await myFetch(apiUrl, {
     query: Object.fromEntries(await getSearchParams()),
   })
-  return res.data.roll_data.filter((k: Item) => !k.is_ad).map((k: Item) => ({
-    id: k.id,
-    title: k.title || k.brief,
-    mobileUrl: k.shareurl,
-    pubDate: k.ctime * 1000,
-    url: `https://www.cls.cn/detail/${k.id}`,
-  }))
+  return res.data.roll_data
+    .filter((k: Item) => !k.is_ad)
+    .map((k: Item) => ({
+      id: k.id,
+      title: k.title || k.brief,
+      mobileUrl: k.shareurl,
+      pubDate: k.ctime * 1000,
+      url: `https://www.cls.cn/detail/${k.id}`,
+    }))
 }
 
 export default {
-  "cls": telegraph,
+  cls: telegraph,
   "cls-telegraph": telegraph,
   "cls-depth": depth,
   "cls-hot": hot,

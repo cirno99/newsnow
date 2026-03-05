@@ -14,25 +14,36 @@ interface Item {
 const live = async (): Promise<NewsItem[]> => {
   const apiUrl = `https://api-one.wallstcn.com/apiv1/content/lives?channel=global-channel&limit=30`
   const res: any = await myFetch(apiUrl)
-  return res.data.items.map((k: Item) => ({
-    id: k.id,
-    title: k.title || k.content_text,
-    extra: { date: k.display_time * 1000 },
-    url: k.uri,
-  }))
+  return res.data.items.map((k: Item) => {
+    const pubDate = k.display_time * 1000
+    return {
+      id: k.id,
+      title: k.title || k.content_text,
+      pubDate: pubDate,
+      extra: { date: pubDate },
+      url: k.uri,
+    }
+  })
 }
 
 const news = async (): Promise<NewsItem[]> => {
   const apiUrl = `https://api-one.wallstcn.com/apiv1/content/information-flow?channel=global-channel&accept=article&limit=30`
   const res: any = await myFetch(apiUrl)
   return res.data.items
-    .filter((k: any) => k.resource_type !== "theme" && k.resource_type !== "ad" && k.resource.type !== "live" && k.resource.uri)
-    .map(({ resource: h }: any) => ({
-      id: h.id,
-      title: h.title || h.content_short,
-      extra: { date: h.display_time * 1000 },
-      url: h.uri,
-    }))
+    .filter(
+      (k: any) =>
+        k.resource_type !== "theme" && k.resource_type !== "ad" && k.resource.type !== "live" && k.resource.uri
+    )
+    .map(({ resource: h }: any) => {
+      const pubDate = h.display_time * 1000
+      return {
+        id: h.id,
+        title: h.title || h.content_short,
+        pubDate: pubDate,
+        extra: { date: pubDate },
+        url: h.uri,
+      }
+    })
 }
 
 const hot = async (): Promise<NewsItem[]> => {
@@ -46,7 +57,7 @@ const hot = async (): Promise<NewsItem[]> => {
 }
 
 export default {
-  "wallstreetcn": live,
+  wallstreetcn: live,
   "wallstreetcn-quick": live,
   "wallstreetcn-news": news,
   "wallstreetcn-hot": hot,

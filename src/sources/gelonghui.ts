@@ -16,12 +16,14 @@ async function handler(): Promise<NewsItem[]> {
     const info = $(el).find(".time > span:nth-child(1)").text()
     const relatieveTime = $(el).find(".time > span:nth-child(3)").text()
     if (url && title && relatieveTime) {
+      const pubDate = parseRelativeDate(relatieveTime, "Asia/Shanghai").valueOf()
       news.push({
         url: baseURL + url,
         title,
         id: url,
+        pubDate: pubDate,
         extra: {
-          date: parseRelativeDate(relatieveTime, "Asia/Shanghai").valueOf(),
+          date: pubDate,
           info,
         },
       })

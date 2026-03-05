@@ -10,8 +10,8 @@
     "rootDir": ".",
     "types": ["bun-types"],
     "paths": {
-      "#/*": ["./src/*"]
-    }
+      "#/*": ["./src/*"],
+    },
   },
-  "include": ["src/**/*.ts", "test/**/*.ts"]
+  "include": ["src/**/*.ts", "test/**/*.ts"],
 }

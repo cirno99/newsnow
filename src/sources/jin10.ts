@@ -22,17 +22,19 @@ async function handler(): Promise<NewsItem[]> {
     .replace(/;*$/, "")
     .trim()
   const data: Jin10Item[] = JSON.parse(jsonStr)
-  return data.filter(k => (k.data.title || k.data.content) && !k.channel?.includes(5)).map((k) => {
-    const text = (k.data.title || k.data.content)!.replace(/<\/?b>/g, "")
-    const [, title, desc] = text.match(/^【([^】]*)】(.*)$/) ?? []
-    return {
-      id: k.id,
-      title: title ?? text,
-      pubDate: parseRelativeDate(k.time, "Asia/Shanghai").valueOf(),
-      url: `https://flash.jin10.com/detail/${k.id}`,
-      extra: { hover: desc, info: !!k.important && "✰" },
-    }
-  })
+  return data
+    .filter(k => (k.data.title || k.data.content) && !k.channel?.includes(5))
+    .map(k => {
+      const text = (k.data.title || k.data.content)!.replace(/<\/?b>/g, "")
+      const [, title, desc] = text.match(/^【([^】]*)】(.*)$/) ?? []
+      return {
+        id: k.id,
+        title: title ?? text,
+        pubDate: parseRelativeDate(k.time, "Asia/Shanghai").valueOf(),
+        url: `https://flash.jin10.com/detail/${k.id}`,
+        extra: { hover: desc, info: !!k.important && "✰" },
+      }
+    })
 }
 
 export default { jin10: handler } satisfies SourceDef

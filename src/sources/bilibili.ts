@@ -74,7 +74,7 @@ const ranking = async (): Promise<NewsItem[]> => {
 }
 
 export default {
-  "bilibili": hotSearch,
+  bilibili: hotSearch,
   "bilibili-hot-search": hotSearch,
   "bilibili-hot-video": hotVideo,
   "bilibili-ranking": ranking,

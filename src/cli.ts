@@ -80,12 +80,12 @@ async function fetchSource(name: string) {
         console.log("No items found.")
         return
       }
-      console.log(`\n${red(name)} (${bold.cyan(items.length)} items)\n${"─".repeat(60)}`)
+      // console.log(`\n${red(name)} (${bold.cyan(items.length)} items)\n${"─".repeat(60)}`)
       for (const [i, item] of items.entries()) {
         const parts = [`${bold(String(i + 1).padStart(3))}. ${bold.blue(item.title)}`]
-        if (item.url) parts.push(`     ${green(item.url)}`)
-        if (item.extra?.info && typeof item.extra.info === "string") parts.push(`     ${item.extra.info}`)
-        console.log(parts.join("\n"))
+        if (item.url) parts.push(` ${green(item.url)}`)
+        if (item.extra?.info && typeof item.extra.info === "string") parts.push(` ${item.extra.info}`)
+        console.log(parts.join("|"))
       }
     }
   } catch (err: any) {

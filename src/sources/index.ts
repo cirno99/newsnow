@@ -1,5 +1,5 @@
 import type { SourceDef } from "../types.js"
-import _36kr from "./_36kr.js"
+import _36kr from "./36kr.js"
 import baidu from "./baidu.js"
 import bilibili from "./bilibili.js"
 import cankaoxiaoxi from "./cankaoxiaoxi.js"

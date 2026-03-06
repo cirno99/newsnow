@@ -1,4 +1,5 @@
 #!/usr/bin/env bun
+import { suggestSimilar } from "./fetchnews.js"
 import { sources } from "./sources/index.js"
 import ansis, { red, blue, green, bold, fg, hex, rgb } from "ansis"
 
@@ -43,23 +44,6 @@ function printList() {
   }
 }
 
-function suggestSimilar(input: string): string[] {
-  const names = Object.keys(sources)
-  return names.filter(n => n.includes(input) || input.includes(n) || levenshtein(n, input) <= 3).slice(0, 5)
-}
-
-function levenshtein(a: string, b: string): number {
-  const m = a.length,
-    n = b.length
-  const dp: number[][] = Array.from({ length: m + 1 }, () => Array(n + 1).fill(0))
-  for (let i = 0; i <= m; i++) dp[i][0] = i
-  for (let j = 0; j <= n; j++) dp[0][j] = j
-  for (let i = 1; i <= m; i++)
-    for (let j = 1; j <= n; j++)
-      dp[i][j] = Math.min(dp[i - 1][j] + 1, dp[i][j - 1] + 1, dp[i - 1][j - 1] + (a[i - 1] !== b[j - 1] ? 1 : 0))
-  return dp[m][n]
-}
-
 async function fetchSource(name: string) {
   const handler = sources[name]
   if (!handler) {
@@ -85,7 +69,7 @@ async function fetchSource(name: string) {
         const parts = [`${bold(String(i + 1).padStart(3))}. ${bold.blue(item.title)}`]
         if (item.url) parts.push(` ${green(item.url)}`)
         if (item.extra?.info && typeof item.extra.info === "string") parts.push(` ${item.extra.info}`)
-        console.log(parts.join("|"))
+        console.log(parts.join(" |"))
       }
     }
   } catch (err: any) {

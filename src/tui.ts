@@ -111,8 +111,8 @@ app.view((state: State) => {
     ui.grid({ columns: 4 }, [
       ui.box({ title: "金十数据", gap: 0, minWidth: 50, border: "rounded" }, [ls1]),
       ui.box({ title: "财联社", gap: 0, minWidth: 50, border: "rounded" }, [ls2]),
-      ui.box({ title: "华尔街见闻", gap: 0, minWidth: 50, border: "rounded" }, [ls3]),
-      ui.box({ title: "格隆汇", gap: 0, minWidth: 50, border: "rounded" }, [ls4]),
+      ui.box({ title: "格隆汇", gap: 0, minWidth: 50, border: "rounded" }, [ls3]),
+      ui.box({ title: "华尔街见闻", gap: 0, minWidth: 50, border: "rounded" }, [ls4]),
     ]),
   ])
 })

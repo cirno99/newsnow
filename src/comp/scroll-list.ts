@@ -41,7 +41,7 @@ const NewsScrollList = defineWidget<{
         }
       }
     },
-    selectable: "multi",
+    selectable: "single",
     sortable: true,
     border: "none",
   })

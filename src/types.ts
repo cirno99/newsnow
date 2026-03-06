@@ -15,3 +15,28 @@ export interface NewsItem {
 
 export type SourceHandler = () => Promise<NewsItem[]>
 export type SourceDef = Record<string, SourceHandler>
+
+export interface FetchEnvelope {
+  source: string
+  count: number
+  items: Partial<NewsItem>[]
+}
+
+export interface SourceMeta {
+  name: string
+  category: string
+  envVars: string[]
+}
+
+export interface ListEnvelope {
+  count: number
+  sources: SourceMeta[]
+}
+
+export interface ErrorEnvelope {
+  error: string
+  code: string
+  suggestions?: string[]
+}
+
+export const NEWS_ITEM_FIELDS = ["id", "title", "url", "mobileUrl", "pubDate", "extra"] as const

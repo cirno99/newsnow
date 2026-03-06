@@ -12,15 +12,16 @@ function bumpVersion(current: string, type: BumpType): string {
   }
 }
 
-async function run(cmd: string[], { dry = false } = {}): Promise<string> {
+async function run(cmd: string[], { dry = false, interactive = false } = {}): Promise<string> {
   console.log(`  $ ${cmd.join(" ")}`);
   if (dry) return "";
-  const result = await Bun.spawn(cmd, {
-    stdout: "pipe",
+  const proc = Bun.spawn(cmd, {
+    stdin: interactive ? "inherit" : "pipe",
+    stdout: interactive ? "inherit" : "pipe",
     stderr: "inherit",
   });
-  const output = await new Response(result.stdout).text();
-  const code = await result.exited;
+  const output = interactive ? "" : await new Response(proc.stdout).text();
+  const code = await proc.exited;
   if (code !== 0) {
     throw new Error(`Command failed with exit code ${code}: ${cmd.join(" ")}`);
   }
@@ -87,7 +88,7 @@ async function main() {
 
   // 7. Publish
   console.log("\nPublish...");
-  await run(["npm", "publish"], { dry: dryRun });
+  await run(["npm", "publish"], { dry: dryRun, interactive: true });
 
   // 8. Push
   console.log("\nGit push...");
